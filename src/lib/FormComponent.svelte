@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
+  import type { EventHandler } from "svelte/elements";
+
     let email = '';
     let username = '';
     let password = '';
 
-    function handleSubmit(event) {
+    function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
         console.log('Email:', email);
         console.log('Username:', username);
