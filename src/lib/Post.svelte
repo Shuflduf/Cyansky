@@ -1,16 +1,15 @@
 <script lang="ts">
-  let { username }: { username: string } = $props();
+  let { username, content }: { username: string, content: string } = $props();
 </script>
 
 <div class="bg-slate-400 p-4 m-2 flex flex-col">
   <p class="text-lg font-bold">@{username}</p>
   <p class="text-lg" style="font-family: 'Inter', sans-serif;">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-    voluptates.
+    {content}
   </p>
 
-  <div class="flex justify-between pt-2 w-2/3 mx-auto">
-    <button class="text-white">
+  <div class="flex pt-2 justify-evenly">
+    <button class="text-white ">
       <div class="flex items-center">
         <img src="/images/like.png" alt="Like" class="h-5 mr-2" /> 42,023
       </div>
