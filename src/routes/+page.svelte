@@ -112,7 +112,9 @@
       {/await}
     </div>
     <div class="min-w-80">
-      <button class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md">
+      <button
+        class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold hover:shadow-lg transition"
+      >
         Log in / Sign up
       </button>
     </div>
