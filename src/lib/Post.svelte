@@ -1,27 +1,37 @@
 <script lang="ts">
-  let { username, content }: { username: string, content: string } = $props();
+  let { username, content }: { username: string; content: string } = $props();
 </script>
 
-<div class="bg-slate-400 p-4 m-2 flex flex-col">
+<div
+  class="bg-slate-300 p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition"
+>
   <p class="text-lg font-bold">@{username}</p>
   <p class="text-lg" style="font-family: 'Inter', sans-serif;">
     {content}
   </p>
 
   <div class="flex pt-2 justify-evenly">
-    <button class="text-white ">
+    <button>
       <div class="flex items-center">
-        <img src="/images/like.png" alt="Like" class="h-5 mr-2" /> 42,023
+        <img src="/images/like.png" alt="Like" class="h-5 mr-2 brightness-0" /> 42,023
       </div>
     </button>
-    <button class="text-white">
+    <button>
       <div class="flex items-center">
-        <img src="/images/dislike.png" alt="Dislike" class="h-5 mr-2 font-black" /> 42,023
+        <img
+          src="/images/dislike.png"
+          alt="Dislike"
+          class="h-5 mr-2 brightness-0"
+        /> 42,023
       </div>
     </button>
-    <button class="text-white">
+    <button>
       <div class="flex items-center">
-        <img src="/images/comment.png" alt="Comment" class="h-5 mr-2 font-bold" /> 42,023
+        <img
+          src="/images/comment.png"
+          alt="Comment"
+          class="h-5 mr-2 brightness-0"
+        /> 42,023
       </div>
     </button>
   </div>

@@ -84,29 +84,44 @@
   }
 </script>
 
-<div class="flex flex-col w-2/5 mx-auto">
-  {#await postsPromise}
-    <h1 class="text-3xl text-center font-bold my-8">Loading...</h1>
-  {:then data}
-    {#if data && data.posts}
-      {#each data.posts as post}
-        <Post username={post.author.username} content={post.content} />
-      {/each}
-      {#if atEnd}
-        <h1 class="text-3xl text-center font-bold my-8">
-          You're at the end...
+<div class="flex flex-col">
+  <div class="flex justify-between flex-grow">
+    <div class="min-w-80"></div>
+    <div class="flex flex-col w-auto flex-grow">
+      {#await postsPromise}
+        <h1 class="text-3xl text-center font-bold">Loading...</h1>
+      {:then data}
+        {#if data && data.posts}
+          {#each data.posts as post}
+            <Post username={post.author.username} content={post.content} />
+          {/each}
+          {#if atEnd}
+            <h1 class="text-3xl text-center font-bold">You're at the end...</h1>
+          {:else if loading}
+            <h1 class="text-3xl text-center font-bold">
+              Loading more posts...
+            </h1>
+          {/if}
+        {:else}
+          <h1 class="text-3xl text-center font-bold">No posts available.</h1>
+        {/if}
+      {:catch error}
+        <h1 class="text-3xl text-center font-bold">
+          Error loading posts: {error.message}
         </h1>
-      {:else if loading}
-        <h1 class="text-3xl text-center font-bold my-8">
-          Loading more posts...
-        </h1>
-      {/if}
-    {:else}
-      <h1 class="text-3xl text-center font-bold my-8">No posts available.</h1>
-    {/if}
-  {:catch error}
-    <h1 class="text-3xl text-center font-bold my-8">
-      Error loading posts: {error.message}
-    </h1>
-  {/await}
+      {/await}
+    </div>
+    <div class="min-w-80">
+      <button class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md">
+        Log in / Sign up
+      </button>
+    </div>
+  </div>
 </div>
+
+<style lang="postcss">
+  @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+  :global(html) {
+    background-color: #e2e8f0;
+  }
+</style>
