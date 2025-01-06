@@ -56,15 +56,15 @@
 <main
   class="max-w-md mx-auto p-4 font-mono font-bold shadow-md flex items-center min-h-screen flex-col bg-slate-300 pt-56"
 >
-  <div class="flex justify-around mb-4">
+  <div class="flex justify-around mb-4 w-full">
     <button
-      class="p-2"
+      class="p-2 w-1/2"
       onclick={() => (isSignup = true)}
       class:selected={isSignup === true}
       class:not-selected={isSignup === false}>Sign up</button
     >
     <button
-      class="p-2"
+      class="p-2 w-1/2"
       onclick={() => (isSignup = false)}
       class:selected={isSignup === false}
       class:not-selected={isSignup === true}>Log in</button
@@ -111,7 +111,10 @@
   </form>
 </main>
 
-<style>
+<style lang="postcss">
+  :global(html) {
+    background-color: #e2e8f0;
+  }
   main {
     font-family: "Courier New", Courier, monospace;
   }
