@@ -1,6 +1,7 @@
 <script lang="ts">
   import Post from "$lib/Post.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { getUserData } from "$lib/getUserData";
 
   // Define the types for the response data
   interface Author {
@@ -38,8 +39,12 @@
     return null;
   }
 
-  onMount(() => {
+  onMount(async () => {
     token = getCookie("token");
+    if (token) {
+      const userData = await getUserData(token);
+      console.log("User data:", userData);
+    }
     postsPromise = fetchPosts();
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);

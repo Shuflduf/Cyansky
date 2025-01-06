@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getUserData } from "$lib/getUserData";
   let email = "";
   let name = "";
   let password = "";
@@ -39,6 +40,8 @@
         );
         if (responseData.token) {
           setCookie("token", responseData.token, 7); // Save token in cookie for 7 days
+          const userData = await getUserData(responseData.token);
+          console.log("User data:", userData);
         }
         // Handle successful response (e.g., redirect to another page)
       } else {
