@@ -25,8 +25,21 @@
   let data: PostsResponse = $state({ posts: [] });
   let loading = $state(true);
   let atEnd = $state(false);
+  let token: string | null = $state(null);
+
+  function getCookie(name: string): string | null {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
 
   onMount(() => {
+    token = getCookie("token");
     postsPromise = fetchPosts();
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
@@ -73,7 +86,7 @@
   function handleScroll() {
     if (
       window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 500
+      document.body.offsetHeight - 800
     ) {
       if (!loading && !atEnd) {
         console.log("Reached the bottom of the page");
@@ -86,8 +99,8 @@
 
 <div class="flex flex-col">
   <div class="flex justify-between flex-grow">
-    <div class="min-w-80"></div>
-    <div class="flex flex-col w-auto flex-grow">
+    <div class="w-1/4"></div>
+    <div class="flex flex-col flex-grow">
       {#await postsPromise}
         <h1 class="text-3xl text-center font-bold">Loading...</h1>
       {:then data}
@@ -111,12 +124,21 @@
         </h1>
       {/await}
     </div>
-    <div class="min-w-80">
-      <button
-        class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold hover:shadow-lg transition"
-      >
-        Log in / Sign up
-      </button>
+    <div class="w-1/4">
+      {#if token}
+        <button
+          class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold"
+        >
+          Token: a
+        </button>
+      {:else}
+        <button
+          class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold hover:shadow-lg transition"
+          onclick={() => (window.location.href = "/login")}
+        >
+          Log in / Sign up
+        </button>
+      {/if}
     </div>
   </div>
 </div>
