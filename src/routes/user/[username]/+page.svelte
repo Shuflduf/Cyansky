@@ -60,7 +60,7 @@
     {/if}
   </div>
   <div class="w-full">
-    <ProfileButton {username} {displayName} />
+    <ProfileButton />
   </div>
 </div>
 

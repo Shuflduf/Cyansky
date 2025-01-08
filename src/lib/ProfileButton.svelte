@@ -1,6 +1,19 @@
 <script lang="ts">
-  let { username, displayName }: { username?: string; displayName?: string } =
-    $props();
+  import { onMount } from "svelte";
+  import { getUserData } from "./getUserData";
+  import { getCookie } from "./getCookie";
+
+  let username: string | undefined = $state(undefined);
+  let displayName: string | undefined = $state(undefined);
+
+  onMount(async () => {
+    const id = getCookie("user_id");
+    if (id) {
+      let userData = await getUserData(id, true);
+      username = userData["username"];
+      displayName = userData["display-name"];
+    }
+  });
 </script>
 
 {#if displayName}
