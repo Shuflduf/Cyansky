@@ -1,11 +1,13 @@
-export async function getUserData(id: string) {
+export async function getUserData(identification: string, id: boolean) {
   try {
     const response = await fetch("http://localhost:8000/getuserdata", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id: id }),
+      body: id
+        ? JSON.stringify({ user_id: identification })
+        : JSON.stringify({ username: identification }),
     });
 
     if (response.ok) {

@@ -3,10 +3,15 @@
 </script>
 
 <div
-  class="bg-slate-300 p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition"
+  class="bg-slate-300 p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition break-words"
 >
-  <p class="text-lg font-bold">@{username}</p>
-  <p class="text-lg" style="font-family: 'Inter', sans-serif;">
+  <button
+    onclick={() => (window.location.href = `/user/${username}`)}
+    class="text-lg font-bold text-left"
+  >
+    @{username}
+  </button>
+  <p class="text-lg text-wrap" style="font-family: 'Inter', sans-serif;">
     {content}
   </p>
 

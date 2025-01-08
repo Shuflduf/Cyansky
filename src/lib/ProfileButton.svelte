@@ -1,0 +1,29 @@
+<script lang="ts">
+  let { username, displayName }: { username?: string; displayName?: string } =
+    $props();
+</script>
+
+{#if displayName}
+  <button
+    class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold"
+    onclick={() => {
+      if (username) window.location.href = `/user/${username}`;
+    }}
+  >
+    {displayName}
+  </button>
+{:else}
+  <button
+    class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold hover:shadow-lg transition"
+    onclick={() => (window.location.href = "/login")}
+  >
+    Log in / Sign up
+  </button>
+{/if}
+
+<style lang="postcss">
+  @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+  :global(html) {
+    background-color: #e2e8f0;
+  }
+</style>

@@ -43,7 +43,7 @@
         setCookie("token", responseData.token, 7); // Save token in cookie for 7 days
         setCookie("user_id", responseData.$id, 7);
 
-        const userData = await getUserData(responseData.$id);
+        const userData = await getUserData(responseData.$id, true);
         console.log("User data:", userData);
 
         // Handle successful response (e.g., redirect to another page)
