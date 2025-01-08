@@ -3,7 +3,7 @@
 </script>
 
 <div
-  class="bg-slate-300 p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition break-words"
+  class="p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition break-words bg-gradient-to-t from-[#bac5d1] to-slate-300"
 >
   <button
     onclick={() => (window.location.href = `/user/${username}`)}

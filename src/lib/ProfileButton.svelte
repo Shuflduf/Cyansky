@@ -23,6 +23,11 @@
       if (username) window.location.href = `/user/${username}`;
     }}
   >
+    <img
+      src="/images/person.png"
+      alt="Profile"
+      class="h-6 w-6 inline-block brightness-0"
+    />
     {displayName}
   </button>
 {:else}

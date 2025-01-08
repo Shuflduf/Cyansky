@@ -35,7 +35,9 @@
       <h1 class="text-3xl text-center font-bold">Error: {error}</h1>
     {:else}
       <div class="flex flex-col">
-        <div class="bg-slate-300 m-2 p-4 flex">
+        <div
+          class="m-2 p-4 flex bg-gradient-to-t from-slate-400 to-slate-300 shadow-md hover:shadow-lg transition"
+        >
           <img
             src="/images/person.png"
             alt="Profile"

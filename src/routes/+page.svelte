@@ -45,7 +45,13 @@
   <div class="w-full"></div>
 
   <div class="w-full">
-    <PostsList />
+    <div class="flex flex-col">
+      <div
+        contenteditable="true"
+        class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md"
+      ></div>
+      <PostsList />
+    </div>
   </div>
 
   <div class="w-full">
