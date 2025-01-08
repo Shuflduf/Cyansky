@@ -2,27 +2,11 @@
   import Post from "$lib/Post.svelte";
   import { onMount, onDestroy } from "svelte";
 
-  // Define the types for the response data
-  interface Author {
-    username: string;
-  }
+  let { userId }: { userId?: string } = $props();
 
-  interface PostData {
-    author: Author;
-    content: string;
-    replies: string[];
-    $id: string;
-  }
-
-  interface PostsResponse {
-    posts: PostData[];
-  }
-
-  let postsPromise = $state<Promise<PostsResponse>>(
-    Promise.resolve({ posts: [] })
-  );
+  let postsPromise = $state<Promise<{ posts: any[] }> | undefined>(undefined);
   let lastPostId: string = "";
-  let data: PostsResponse = $state({ posts: [] });
+  let data = $state<{ posts: any[] }>({ posts: [] });
   let loading = $state(true);
   let atEnd = $state(false);
 
@@ -39,23 +23,30 @@
     }
   });
 
-  async function fetchPosts(): Promise<PostsResponse> {
+  async function fetchPosts() {
     try {
+      console.log(userId);
+      let sendBody: { last_post_id: string; user_id?: string } = {
+        last_post_id: lastPostId,
+      };
+      if (userId) {
+        sendBody.user_id = userId;
+      }
       const response = await fetch("http://localhost:8000/getposts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ last_post_id: lastPostId }),
+        body: JSON.stringify(sendBody),
       });
       if (response.ok) {
         let newData = await response.json();
-        if (newData == null) {
+        if (newData.documents.length === 0) {
           console.log("No more posts available");
           atEnd = true;
           return data;
         }
-        data.posts = data.posts.concat(newData.posts);
+        data.posts = data.posts.concat(newData.documents);
         lastPostId = data.posts[data.posts.length - 1].$id;
         console.log("Last post ID:", lastPostId);
         loading = false;
@@ -71,9 +62,10 @@
   }
 
   function handleScroll() {
+    console.log(userId);
     if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 800
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 800 &&
+      userId === undefined
     ) {
       if (!loading && !atEnd) {
         console.log("Reached the bottom of the page");

@@ -3,11 +3,13 @@
   import { page } from "$app/stores";
   import { getUserData } from "$lib/getUserData";
   import ProfileButton from "$lib/ProfileButton.svelte";
+  import PostsList from "$lib/PostsList.svelte";
 
   let error: string | null = $state(null);
   let username: string | undefined = $state($page.params.username);
   let displayName: string | undefined = $state(undefined);
   let description: string | undefined = $state(undefined);
+  let userId: string | undefined = $state(undefined);
 
   onMount(async () => {
     const username = $page.params.username;
@@ -15,6 +17,7 @@
       const userData = await getUserData(username, false);
       displayName = userData["display-name"];
       description = userData["description"];
+      userId = userData["$id"];
     } catch (err) {
       if (err instanceof Error) {
         error = err.message;
@@ -31,21 +34,28 @@
     {#if error}
       <h1 class="text-3xl text-center font-bold">Error: {error}</h1>
     {:else}
-      <div class="bg-slate-300 m-4 p-4 flex">
-        <img
-          src="/images/person.png"
-          alt="Profile"
-          class="h-24 w-24 brightness-0"
-        />
-        <div class="flex flex-col">
-          <h1 class="text-3xl font-bold">
-            {displayName}
-          </h1>
-          <p>@{username}</p>
-          <p style="font-family: 'Inter', sans-serif;" class="mt-auto">
-            {description}
-          </p>
+      <div class="flex flex-col">
+        <div class="bg-slate-300 m-2 p-4 flex">
+          <img
+            src="/images/person.png"
+            alt="Profile"
+            class="h-24 w-24 brightness-0"
+          />
+          <div class="flex flex-col">
+            <h1 class="text-3xl font-bold">
+              {displayName}
+            </h1>
+            <p>@{username}</p>
+            <p style="font-family: 'Inter', sans-serif;" class="mt-auto">
+              {description}
+            </p>
+          </div>
         </div>
+        {#if userId}
+          <PostsList {userId} />
+        {:else}
+          <h1 class="text-3xl text-center font-bold">Loading...</h1>
+        {/if}
       </div>
     {/if}
   </div>
