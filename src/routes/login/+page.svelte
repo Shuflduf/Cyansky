@@ -38,12 +38,16 @@
         console.log(
           isSignup ? "Account created successfully" : "Logged in successfully"
         );
-        if (responseData.token) {
-          setCookie("token", responseData.token, 7); // Save token in cookie for 7 days
-          const userData = await getUserData(responseData.token);
-          console.log("User data:", userData);
-        }
+
+        // cookie
+        setCookie("token", responseData.token, 7); // Save token in cookie for 7 days
+        setCookie("user_id", responseData.$id, 7);
+
+        const userData = await getUserData(responseData.$id);
+        console.log("User data:", userData);
+
         // Handle successful response (e.g., redirect to another page)
+        window.location.href = "/";
       } else {
         console.error("Failed to submit, status:", response.status);
       }
@@ -54,7 +58,7 @@
 </script>
 
 <main
-  class="max-w-md mx-auto p-4 font-mono font-bold shadow-md flex items-center min-h-screen flex-col bg-slate-300 pt-56"
+  class="max-w-md mx-auto p-4 font-mono font-bold shadow-md flex items-center min-h-screen flex-col bg-slate-300"
 >
   <div class="flex justify-around mb-4 w-full">
     <button
@@ -105,7 +109,7 @@
     </div>
     <button
       type="submit"
-      class="p-2 px-4 border-none bg-blue-500 text-white cursor-pointer shadow-md hover:shadow-lg hover:bg-blue-700 transition"
+      class="p-2 px-4 w-full border-none bg-blue-500 text-white cursor-pointer shadow-md hover:shadow-lg hover:bg-blue-700 transition"
       >Submit</button
     >
   </form>

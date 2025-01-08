@@ -27,6 +27,7 @@
   let loading = $state(true);
   let atEnd = $state(false);
   let token: string | null = $state(null);
+  let id: string | null = $state(null);
 
   function getCookie(name: string): string | null {
     const nameEQ = name + "=";
@@ -41,8 +42,10 @@
 
   onMount(async () => {
     token = getCookie("token");
-    if (token) {
-      const userData = await getUserData(token);
+    id = getCookie("user_id");
+
+    if (id) {
+      const userData = await getUserData(id);
       console.log("User data:", userData);
     }
     postsPromise = fetchPosts();
@@ -130,11 +133,17 @@
       {/await}
     </div>
     <div class="w-1/4">
-      {#if token}
+      {#if id}
         <button
           class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold"
         >
-          Token: a
+          {#await getUserData(id)}
+            <span>Loading...</span>
+          {:then userData}
+            {userData["display-name"]}
+          {:catch error}
+            <span>Error loading username</span>
+          {/await}
         </button>
       {:else}
         <button

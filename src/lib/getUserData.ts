@@ -1,11 +1,11 @@
-export async function getUserData(token: string) {
+export async function getUserData(id: string) {
   try {
     const response = await fetch("http://localhost:8000/getuserdata", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ user_id: id }),
     });
 
     if (response.ok) {
