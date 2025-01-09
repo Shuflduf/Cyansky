@@ -54,7 +54,7 @@
           </div>
         </div>
         {#if userId}
-          <PostsList {userId} />
+          <PostsList targetUserId={userId} />
         {:else}
           <h1 class="text-3xl text-center font-bold">Loading...</h1>
         {/if}
