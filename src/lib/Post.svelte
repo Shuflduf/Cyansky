@@ -26,11 +26,7 @@
     postId ? (userDislikedPosts ?? []).includes(postId) : false
   );
 
-  console.log("Post:", { content, userLikedPosts, postId });
-
   function updateAllValues() {
-    if (userLikedPosts === undefined || userDislikedPosts === undefined) {
-    }
     liked = postId ? (userLikedPosts?.includes(postId) ?? false) : false;
     disliked = postId ? (userDislikedPosts?.includes(postId) ?? false) : false;
     console.log("Updated values:", { liked, disliked });
