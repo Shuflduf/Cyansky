@@ -1,7 +1,8 @@
 <script lang="ts">
   import { getUserData } from "$lib/getUserData";
   let email = "";
-  let name = "";
+  let username = "";
+  let displayName = "";
   let password = "";
   let isSignup = true;
 
@@ -17,7 +18,10 @@
     const data = {
       email,
       password,
-      ...(isSignup && { name }),
+      ...(isSignup && {
+        username: username,
+        display_name: displayName,
+      }),
     };
 
     const url = isSignup
@@ -76,11 +80,21 @@
   <form onsubmit={handleSubmit} class="w-full">
     {#if isSignup}
       <div class="mb-4">
+        <label for="display-name" class="block mb-2">Display Name:</label>
+        <input
+          type="text"
+          id="display-name"
+          bind:value={displayName}
+          required
+          class="w-full p-2 border border-gray-300"
+        />
+      </div>
+      <div class="mb-4">
         <label for="username" class="block mb-2">Username:</label>
         <input
           type="text"
           id="username"
-          bind:value={name}
+          bind:value={username}
           required
           class="w-full p-2 border border-gray-300"
         />
