@@ -1,8 +1,10 @@
 <script lang="ts">
   import Post from "$lib/Post.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { getCookie } from "./getCookie";
+  import { getUserData } from "./getUserData";
 
-  let { userId }: { userId?: string } = $props();
+  let { targetUserId }: { targetUserId?: string } = $props();
 
   let postsPromise = $state<Promise<{ posts: any[] }> | undefined>(undefined);
   let lastPostId: string = "";
@@ -10,7 +12,13 @@
   let loading = $state(true);
   let atEnd = $state(false);
 
+  let likedPosts: string[] = $state([]);
+  let dislikedPosts: string[] = $state([]);
+  let likedPostsLoaded = $state(false);
+
   onMount(async () => {
+    await getLikedPosts();
+    likedPostsLoaded = true;
     postsPromise = fetchPosts();
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
@@ -23,14 +31,23 @@
     }
   });
 
+  async function getLikedPosts() {
+    const userId = getCookie("user_id");
+    if (userId) {
+      const userData = await getUserData(userId, true);
+
+      likedPosts = userData["liked-posts"];
+      dislikedPosts = userData["disliked-posts"];
+    }
+  }
+
   async function fetchPosts() {
     try {
-      console.log(userId);
       let sendBody: { last_post_id: string; user_id?: string } = {
         last_post_id: lastPostId,
       };
-      if (userId) {
-        sendBody.user_id = userId;
+      if (targetUserId) {
+        sendBody.user_id = targetUserId;
       }
       const response = await fetch("http://localhost:8000/getposts", {
         method: "POST",
@@ -62,10 +79,9 @@
   }
 
   function handleScroll() {
-    console.log(userId);
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 800 &&
-      userId === undefined
+      targetUserId === undefined
     ) {
       if (!loading && !atEnd) {
         console.log("Reached the bottom of the page");
@@ -77,28 +93,40 @@
 </script>
 
 <div class="flex flex-col mx-auto w-full">
-  {#await postsPromise}
-    <h1 class="text-3xl text-center font-bold">Loading...</h1>
-  {:then data}
-    {#if data && data.posts}
-      <div>
-        {#each data.posts as post}
-          <Post username={post.author.username} content={post.content} />
-        {/each}
-      </div>
-      {#if atEnd}
-        <h1 class="text-3xl text-center font-bold">You're at the end...</h1>
-      {:else if loading}
-        <h1 class="text-3xl text-center font-bold">Loading more posts...</h1>
+  {#if likedPostsLoaded}
+    {#await postsPromise}
+      <h1 class="text-3xl text-center font-bold">Loading...</h1>
+    {:then data}
+      {#if data && data.posts}
+        <div>
+          {#each data.posts as post}
+            <Post
+              username={post.author.username}
+              content={post.content}
+              likes={post.likes}
+              dislikes={post.dislikes}
+              postId={post.$id}
+              userLikedPosts={likedPosts}
+              userDislikedPosts={dislikedPosts}
+            />
+          {/each}
+        </div>
+        {#if atEnd}
+          <h1 class="text-3xl text-center font-bold">You're at the end...</h1>
+        {:else if loading}
+          <h1 class="text-3xl text-center font-bold">Loading more posts...</h1>
+        {/if}
+      {:else}
+        <h1 class="text-3xl text-center font-bold">No posts available.</h1>
       {/if}
-    {:else}
-      <h1 class="text-3xl text-center font-bold">No posts available.</h1>
-    {/if}
-  {:catch error}
-    <h1 class="text-3xl text-center font-bold">
-      Error loading posts: {error.message}
-    </h1>
-  {/await}
+    {:catch error}
+      <h1 class="text-3xl text-center font-bold">
+        Error loading posts: {error.message}
+      </h1>
+    {/await}
+  {:else}
+    <h1 class="text-3xl text-center font-bold">Loading liked posts...</h1>
+  {/if}
 </div>
 
 <style lang="postcss">

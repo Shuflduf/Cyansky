@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { slide } from "svelte/transition";
+
   import PostsList from "../lib/PostsList.svelte";
 
   import ProfileButton from "../lib/ProfileButton.svelte";
@@ -28,6 +30,11 @@
   let username: string | undefined = $state(undefined);
   let displayName: string | undefined = $state(undefined);
 
+  let submitContent = $state("");
+  let showPlaceholder = $derived(submitContent?.trim().length > 0);
+  let canSubmit = $derived(submitContent?.trim().length <= 300);
+  let submitting = $state(false);
+
   onMount(async () => {
     token = getCookie("token");
     id = getCookie("user_id");
@@ -39,6 +46,26 @@
       displayName = userData["display-name"];
     }
   });
+
+  async function onSubmit() {
+    if (!canSubmit || submitting) {
+      return;
+    }
+    submitting = true;
+    await fetch("http://localhost:8000/createpost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: submitContent.trim(),
+        token: token,
+      }),
+    });
+    // const json = await response.json();
+    // reload current page
+    location.reload();
+  }
 </script>
 
 <div class="flex justify-between flex-grow">
@@ -46,10 +73,34 @@
 
   <div class="w-full">
     <div class="flex flex-col">
-      <div
-        contenteditable="true"
-        class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md"
-      ></div>
+      {#if token}
+        <div
+          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md {submitting
+            ? 'animate-pulse'
+            : ''}"
+        >
+          <div
+            contenteditable="true"
+            data-placeholder="> Leave your mark"
+            class="{!showPlaceholder
+              ? 'before:content-[attr(data-placeholder)]'
+              : ''} before:text-slate-500 min-h-[1.5em] outline-none"
+            bind:innerText={submitContent}
+          ></div>
+          {#if showPlaceholder}
+            <div transition:slide>
+              <button
+                onclick={onSubmit}
+                class="p-2 px-4 mt-2 w-full border-none {canSubmit
+                  ? 'bg-blue-500 hover:bg-blue-700 cursor-pointer'
+                  : 'bg-red-500 hover:bg-red-700 cursor-not-allowed'} text-white transition"
+              >
+                Submit ({submitContent.trim().length} / 300)
+              </button>
+            </div>
+          {/if}
+        </div>
+      {/if}
       <PostsList />
     </div>
   </div>
