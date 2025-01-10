@@ -74,7 +74,7 @@
     <div class="flex flex-col">
       {#if token && token.length > 0}
         <div
-          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md {submitting
+          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md cursor-text {submitting
             ? 'animate-pulse'
             : ''}"
         >
