@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getCookie } from "./getCookie";
   import { ENDPOINT } from "$lib/constants";
+  import { slide } from "svelte/transition";
 
   let {
     username,
@@ -73,6 +74,7 @@
 </script>
 
 <div
+  transition:slide|global
   class="p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition break-words bg-gradient-to-t from-[#bac5d1] to-slate-300"
 >
   <button

@@ -63,14 +63,12 @@
         token: token,
       }),
     });
-    // const json = await response.json();
-    // reload current page
     location.reload();
   }
 </script>
 
 <div class="flex justify-between flex-grow">
-  <div class="w-full"></div>
+  <div class="lg:w-full"></div>
 
   <div class="w-full">
     <div class="flex flex-col">
@@ -106,7 +104,7 @@
     </div>
   </div>
 
-  <div class="w-full">
+  <div class="lg:w-full">
     <ProfileButton />
   </div>
 </div>
