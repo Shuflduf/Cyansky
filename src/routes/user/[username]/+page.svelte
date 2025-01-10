@@ -7,6 +7,7 @@
   import ProfileButton from "$lib/ProfileButton.svelte";
   import PostsList from "$lib/PostsList.svelte";
   import { getCookie } from "$lib/getCookie";
+  import { ENDPOINT } from "$lib/constants";
 
   let error: string | null = $state(null);
   let username: string | undefined = $state($page.params.username);
@@ -51,7 +52,7 @@
   async function submitChanges() {
     if (!canSubmit || submitting) return;
     submitting = true;
-    const response = await fetch("http://localhost:8000/setuserdata", {
+    const response = await fetch(`${ENDPOINT}/setuserdata`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

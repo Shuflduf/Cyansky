@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   import { getUserData } from "$lib/getUserData";
   import { getCookie } from "$lib/getCookie";
+  import { ENDPOINT } from "$lib/constants";
 
   // Define the types for the response data
   interface Author {
@@ -52,7 +53,7 @@
       return;
     }
     submitting = true;
-    await fetch("http://localhost:8000/createpost", {
+    await fetch(`${ENDPOINT}/createpost`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

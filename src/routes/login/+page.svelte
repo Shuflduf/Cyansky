@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getUserData } from "$lib/getUserData";
+  import { ENDPOINT } from "$lib/constants";
   let email = "";
   let username = "";
   let displayName = "";
@@ -24,9 +25,7 @@
       }),
     };
 
-    const url = isSignup
-      ? "http://localhost:8000/createaccount"
-      : "http://localhost:8000/login";
+    const url = isSignup ? `${ENDPOINT}/createaccount` : `${ENDPOINT}/login`;
 
     try {
       const response = await fetch(url, {

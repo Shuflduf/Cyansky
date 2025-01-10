@@ -3,6 +3,7 @@
   import { onMount, onDestroy } from "svelte";
   import { getCookie } from "./getCookie";
   import { getUserData } from "./getUserData";
+  import { ENDPOINT } from "$lib/constants";
 
   let { targetUserId }: { targetUserId?: string } = $props();
 
@@ -49,7 +50,7 @@
       if (targetUserId) {
         sendBody.user_id = targetUserId;
       }
-      const response = await fetch("http://localhost:8000/getposts", {
+      const response = await fetch(`${ENDPOINT}/getposts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

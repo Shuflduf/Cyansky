@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getCookie } from "./getCookie";
+  import { ENDPOINT } from "$lib/constants";
 
   let {
     username,
@@ -26,7 +27,11 @@
     postId ? (userDislikedPosts ?? []).includes(postId) : false
   );
 
+  console.log("Post:", { content, userLikedPosts, postId });
+
   function updateAllValues() {
+    if (userLikedPosts === undefined || userDislikedPosts === undefined) {
+    }
     liked = postId ? (userLikedPosts?.includes(postId) ?? false) : false;
     disliked = postId ? (userDislikedPosts?.includes(postId) ?? false) : false;
     console.log("Updated values:", { liked, disliked });
@@ -38,7 +43,7 @@
     }
     requestPending = true;
     const token = getCookie("token");
-    const response = await fetch("http://localhost:8000/likes", {
+    const response = await fetch(`${ENDPOINT}/likes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
