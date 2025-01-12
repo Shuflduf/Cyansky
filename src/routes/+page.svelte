@@ -63,20 +63,18 @@
         token: token,
       }),
     });
-    // const json = await response.json();
-    // reload current page
     location.reload();
   }
 </script>
 
 <div class="flex justify-between flex-grow">
-  <div class="w-full"></div>
+  <div class="lg:w-full"></div>
 
   <div class="w-full">
     <div class="flex flex-col">
       {#if token && token.length > 0}
         <div
-          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md {submitting
+          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md cursor-text {submitting
             ? 'animate-pulse'
             : ''}"
         >
@@ -106,7 +104,7 @@
     </div>
   </div>
 
-  <div class="w-full">
+  <div class="lg:w-full">
     <ProfileButton />
   </div>
 </div>

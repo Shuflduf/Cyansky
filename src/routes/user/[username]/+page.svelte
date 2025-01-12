@@ -87,7 +87,7 @@
           <div class="flex flex-col w-full">
             {#if ownProfile}
               <h1
-                class="text-3xl font-bold outline-none"
+                class="text-3xl font-bold outline-none border-b-blue-500 border-opacity-50 border-b-2 break-all w-fit"
                 contenteditable
                 bind:innerText={newDisplayName}
                 spellcheck="false"
@@ -110,7 +110,7 @@
               <p
                 style="font-family: 'Inter', sans-serif;"
                 data-placeholder="> Add description"
-                class="mt-auto break-all {newDescription &&
+                class="mt-auto break-all border-b-blue-500 border-opacity-50 border-b-2 w-fit{newDescription &&
                 newDescription?.trim().length > 0
                   ? ''
                   : 'before:content-[attr(data-placeholder)]'} before:text-slate-500 min-h-[1.5em] outline-none"
