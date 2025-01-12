@@ -1,1 +1,1 @@
-export const ENDPOINT: string = "http://localhost:8000";
+export const ENDPOINT: string = "https://api.shuflduf.hackclub.app/";
