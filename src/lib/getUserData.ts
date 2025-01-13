@@ -1,6 +1,8 @@
+import { ENDPOINT } from "./constants";
+
 export async function getUserData(identification: string, id: boolean) {
   try {
-    const response = await fetch("http://localhost:8000/getuserdata", {
+    const response = await fetch(ENDPOINT + "/getuserdata", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
