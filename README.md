@@ -10,6 +10,4 @@
 Contributions are allowed.
 
 # Cloning
-idk i used a very specific appwrite config to make it work, and you also need an api key to interact with it
-
-theres a docker container tho
+Cloning is also allowed.
