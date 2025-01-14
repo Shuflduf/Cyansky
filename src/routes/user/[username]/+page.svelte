@@ -8,6 +8,7 @@
   import PostsList from "$lib/PostsList.svelte";
   import { getCookie } from "$lib/getCookie";
   import { ENDPOINT } from "$lib/constants";
+  import Sidebar from "$lib/Sidebar.svelte";
 
   let error: string | null = $state(null);
   let username: string | undefined = $state($page.params.username);
@@ -154,7 +155,7 @@
     {/if}
   </div>
   <div class="w-full">
-    <ProfileButton />
+    <Sidebar />
   </div>
 </div>
 
