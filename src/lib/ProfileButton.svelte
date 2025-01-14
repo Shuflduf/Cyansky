@@ -18,7 +18,7 @@
 
 {#if displayName}
   <button
-    class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold"
+    class="py-2 px-4 bg-slate-300 shadow-md font-bold w-full"
     onclick={() => {
       if (username) window.location.href = `/user/${username}`;
     }}
@@ -32,7 +32,7 @@
   </button>
 {:else}
   <button
-    class="m-4 py-2 px-4 fixed bg-slate-300 right-0 shadow-md font-bold hover:shadow-lg transition"
+    class="py-2 px-4 bg-slate-300 shadow-md font-bold hover:shadow-lg transition w-full"
     onclick={() => (window.location.href = "/login")}
   >
     Log in / Sign up

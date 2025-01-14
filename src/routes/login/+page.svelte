@@ -1,15 +1,15 @@
 <script lang="ts">
   import { getUserData } from "$lib/getUserData";
   import { ENDPOINT } from "$lib/constants";
-  import { error } from "@sveltejs/kit";
 
   let errorMessage: unknown = $state("");
-
-  let email = "";
-  let username = "";
-  let displayName = "";
-  let password = "";
   let isSignup = $state(true);
+
+  // the only reason $state() is here is because vscode gets mad otherwise
+  let email = $state("");
+  let username = $state("");
+  let displayName = $state("");
+  let password = $state("");
 
   function setCookie(name: string, value: string, days: number) {
     const date = new Date();

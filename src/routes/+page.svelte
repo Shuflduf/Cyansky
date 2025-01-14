@@ -9,6 +9,7 @@
   import { getUserData } from "$lib/getUserData";
   import { getCookie } from "$lib/getCookie";
   import { ENDPOINT } from "$lib/constants";
+  import Sidebar from "$lib/Sidebar.svelte";
 
   // Define the types for the response data
   interface Author {
@@ -105,7 +106,7 @@
   </div>
 
   <div class="lg:w-full">
-    <ProfileButton />
+    <Sidebar />
   </div>
 </div>
 
