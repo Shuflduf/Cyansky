@@ -1,11 +1,15 @@
 <script lang="ts">
   import { getUserData } from "$lib/getUserData";
   import { ENDPOINT } from "$lib/constants";
+  import { error } from "@sveltejs/kit";
+
+  let errorMessage: unknown = $state("");
+
   let email = "";
   let username = "";
   let displayName = "";
   let password = "";
-  let isSignup = true;
+  let isSignup = $state(true);
 
   function setCookie(name: string, value: string, days: number) {
     const date = new Date();
@@ -52,6 +56,8 @@
         window.location.href = "/";
       } else {
         console.error("Failed to submit, status:", response.status);
+        let json = await response.json();
+        errorMessage = json.error;
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -125,6 +131,9 @@
       >Submit</button
     >
   </form>
+  {#if errorMessage}
+    <div class="text-red-500 mt-4">{errorMessage}</div>
+  {/if}
 </main>
 
 <style lang="postcss">
