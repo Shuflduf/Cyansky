@@ -9,6 +9,7 @@
   import { ENDPOINT } from "$lib/constants";
   import Sidebar from "$lib/Sidebar.svelte";
   import { darkMode } from "$lib/stores/theme";
+  import SideMargin from "$lib/SideMargin.svelte";
 
   let error: string | null = $state(null);
   let username: string | undefined = $state($page.params.username);
@@ -70,14 +71,14 @@
 </script>
 
 <div class="flex">
-  <div class="lg:w-full"></div>
+  <SideMargin />
   <div class="w-full">
     {#if error}
       <h1 class="text-3xl text-center font-bold">Error: {error}</h1>
     {:else}
       <div class="flex flex-col">
         <div
-          class="m-2 p-4 flex {isDarkMode
+          class="m-2 lg:my-4 p-4 flex {isDarkMode
             ? 'bg-slate-800 text-white'
             : 'bg-gradient-to-t from-slate-400 to-slate-300'} {submitting
             ? 'animate-pulse'
@@ -157,9 +158,12 @@
       </div>
     {/if}
   </div>
-  <div class="lg:w-full">
+  <!-- <div class="lg:w-full">
     <Sidebar />
-  </div>
+  </div> -->
+  <SideMargin>
+    <Sidebar />
+  </SideMargin>
 </div>
 
 <style lang="postcss">

@@ -22,7 +22,7 @@
   <button
     class="py-2 px-4 {isDarkMode
       ? 'bg-slate-800 text-white'
-      : 'bg-slate-300'} shadow-md font-bold w-full"
+      : 'bg-slate-300'} shadow-md font-bold w-full hover:shadow-lg transition"
     onclick={() => {
       if (username) window.location.href = `/user/${username}`;
     }}

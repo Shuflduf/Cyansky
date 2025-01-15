@@ -1,4 +1,6 @@
 <script lang="ts">
+  import SideMargin from "../lib/SideMargin.svelte";
+
   import { slide } from "svelte/transition";
 
   import PostsList from "../lib/PostsList.svelte";
@@ -18,15 +20,28 @@
   let canSubmit = $derived(submitContent?.trim().length <= 300);
   let submitting = $state(false);
   let isDarkMode = $derived($darkMode);
+  let isMobile = $state(false);
 
-  onMount(async () => {
-    token = getCookie("token");
-    id = getCookie("user_id");
+  // Check if device is mobile
+  const checkMobile = () => {
+    isMobile = window.innerWidth < 1024; // 1024px is the lg breakpoint in Tailwind
+  };
 
-    if (id) {
-      const userData = await getUserData(id, true);
-      console.log("User data:", userData);
-    }
+  onMount(() => {
+    (async () => {
+      token = getCookie("token");
+      id = getCookie("user_id");
+
+      if (id) {
+        const userData = await getUserData(id, true);
+        console.log("User data:", userData);
+      }
+
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+    })();
+
+    return () => window.removeEventListener("resize", checkMobile);
   });
 
   async function onSubmit() {
@@ -49,13 +64,13 @@
 </script>
 
 <div class="flex justify-between flex-grow">
-  <div class="lg:w-full"></div>
+  <SideMargin></SideMargin>
 
   <div class="w-full">
     <div class="flex flex-col">
       {#if token && token.length > 0}
         <div
-          class="break-all my-4 mx-2 p-4 {isDarkMode
+          class="break-all my-2 mx-2 p-4 lg:my-4 {isDarkMode
             ? 'bg-slate-800 text-white'
             : 'bg-slate-300'} shadow-md cursor-text {submitting
             ? 'animate-pulse'
@@ -89,9 +104,14 @@
     </div>
   </div>
 
-  <div class="lg:w-full">
+  <!-- <div class="lg:w-full">
     <Sidebar />
-  </div>
+  </div> -->
+  <SideMargin>
+    {#if !showPlaceholder || !isMobile}
+      <Sidebar />
+    {/if}
+  </SideMargin>
 </div>
 
 <style lang="postcss">

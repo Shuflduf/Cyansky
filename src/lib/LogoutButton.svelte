@@ -18,7 +18,7 @@
   <button
     class="py-2 px-4 {isDarkMode
       ? 'bg-slate-800 text-white'
-      : 'bg-slate-300'} right-0 shadow-md font-bold w-full"
+      : 'bg-slate-300'} right-0 shadow-md font-bold w-full hover:shadow-lg transition"
     onclick={() => {
       window.location.href = "/login";
     }}
