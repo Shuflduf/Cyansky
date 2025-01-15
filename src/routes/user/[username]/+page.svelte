@@ -30,7 +30,7 @@
   );
 
   let submitting = $state(false);
-  let isDarkMode = $derived(darkMode);
+  let isDarkMode = $derived($darkMode);
 
   onMount(async () => {
     const username = $page.params.username;
