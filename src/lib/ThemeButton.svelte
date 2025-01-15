@@ -20,9 +20,6 @@
       ? 'bg-slate-800 text-white'
       : 'bg-slate-300'} right-0 shadow-md font-bold w-full hover:shadow-lg transition"
     onclick={() => {
-      //   darkMode.set(!$isDarkMode);
-      //   localStorage.setItem("darkMode", isDarkMode ? "false" : "true");
-      //   updateCookie("darkMode", isDarkMode ? "false" : "true");
       updateTheme(!$darkMode);
       location.reload();
     }}
