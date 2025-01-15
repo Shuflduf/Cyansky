@@ -3,39 +3,21 @@
 
   import PostsList from "../lib/PostsList.svelte";
 
-  import ProfileButton from "../lib/ProfileButton.svelte";
-
   import { onMount } from "svelte";
   import { getUserData } from "$lib/getUserData";
-  import { getCookie } from "$lib/getCookie";
+  import { getCookie } from "$lib/cookieUtil";
   import { ENDPOINT } from "$lib/constants";
   import Sidebar from "$lib/Sidebar.svelte";
-
-  // Define the types for the response data
-  interface Author {
-    username: string;
-  }
-
-  interface PostData {
-    author: Author;
-    content: string;
-    replies: string[];
-    $id: string;
-  }
-
-  interface PostsResponse {
-    posts: PostData[];
-  }
+  import { darkMode } from "$lib/stores/theme";
 
   let token: string | undefined = $state(undefined);
   let id: string | undefined = $state(undefined);
-  let username: string | undefined = $state(undefined);
-  let displayName: string | undefined = $state(undefined);
 
   let submitContent = $state("");
   let showPlaceholder = $derived(submitContent?.trim().length > 0);
   let canSubmit = $derived(submitContent?.trim().length <= 300);
   let submitting = $state(false);
+  let isDarkMode = $derived($darkMode);
 
   onMount(async () => {
     token = getCookie("token");
@@ -44,8 +26,6 @@
     if (id) {
       const userData = await getUserData(id, true);
       console.log("User data:", userData);
-      username = userData["username"];
-      displayName = userData["display-name"];
     }
   });
 
@@ -75,7 +55,9 @@
     <div class="flex flex-col">
       {#if token && token.length > 0}
         <div
-          class="break-all my-4 mx-2 p-4 bg-slate-300 shadow-md cursor-text {submitting
+          class="break-all my-4 mx-2 p-4 {isDarkMode
+            ? 'bg-slate-800 text-white'
+            : 'bg-slate-300'} shadow-md cursor-text {submitting
             ? 'animate-pulse'
             : ''}"
         >
@@ -84,7 +66,9 @@
             data-placeholder="> Leave your mark"
             class="{!showPlaceholder
               ? 'before:content-[attr(data-placeholder)]'
-              : ''} before:text-slate-500 min-h-[1.5em] outline-none"
+              : ''} before:text-slate-500 min-h-[1.5em] outline-none {isDarkMode
+              ? 'text-white'
+              : 'text-black'}"
             bind:innerText={submitContent}
           ></div>
           {#if showPlaceholder}
@@ -114,5 +98,8 @@
   @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
   :global(html) {
     background-color: #e2e8f0;
+  }
+  :global(.dark-mode) {
+    background-color: #334155;
   }
 </style>

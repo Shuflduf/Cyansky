@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getCookie } from "./cookieUtil";
-  import { darkMode } from "$lib/stores/theme";
+  import { getCookie, updateCookie } from "./cookieUtil";
+  import { darkMode, updateTheme } from "$lib/stores/theme";
 
   let render = $state(false);
   let isDarkMode = $derived($darkMode);
@@ -20,15 +20,19 @@
       ? 'bg-slate-800 text-white'
       : 'bg-slate-300'} right-0 shadow-md font-bold w-full"
     onclick={() => {
-      window.location.href = "/login";
+      //   darkMode.set(!$isDarkMode);
+      //   localStorage.setItem("darkMode", isDarkMode ? "false" : "true");
+      //   updateCookie("darkMode", isDarkMode ? "false" : "true");
+      updateTheme(!$darkMode);
+      location.reload();
     }}
   >
     <img
-      src="/images/logout.png"
+      src="/images/palette.png"
       alt="Logout"
       class="h-6 w-6 inline-block {isDarkMode ? 'image-white' : 'brightness-0'}"
     />
-    Logout
+    Theme
   </button>
 {/if}
 

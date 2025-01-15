@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getUserData } from "$lib/getUserData";
   import { ENDPOINT } from "$lib/constants";
+  import { setCookie } from "$lib/cookieUtil";
 
   let errorMessage: unknown = $state("");
   let isSignup = $state(true);
@@ -10,13 +11,6 @@
   let username = $state("");
   let displayName = $state("");
   let password = $state("");
-
-  function setCookie(name: string, value: string, days: number) {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = "expires=" + date.toUTCString();
-    document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax`;
-  }
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();

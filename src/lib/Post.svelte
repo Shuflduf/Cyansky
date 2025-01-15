@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { getCookie } from "./getCookie";
+  import { getCookie } from "./cookieUtil";
   import { ENDPOINT } from "$lib/constants";
   import { slide } from "svelte/transition";
+  import { darkMode } from "$lib/stores/theme";
 
   let {
     username,
@@ -71,11 +72,15 @@
   async function sendDislike() {
     await sendToLikesApi(false);
   }
+
+  let isDarkMode = $derived($darkMode);
 </script>
 
 <div
   transition:slide|global
-  class="p-4 m-2 flex flex-col shadow-md hover:shadow-lg transition break-words bg-gradient-to-t from-[#bac5d1] to-slate-300"
+  class="p-4 m-2 flex flex-col shadow-sm hover:shadow-lg transition break-words {isDarkMode
+    ? 'bg-slate-800 text-white'
+    : 'bg-gradient-to-t from-[#bac5d1] to-slate-300'}"
 >
   <button
     onclick={() => (window.location.href = `/user/${username}`)}
@@ -96,7 +101,9 @@
       <img
         src="/images/like.png"
         alt="Like"
-        class="h-6 mr-2 inline {liked ? 'image-blue' : ''}"
+        class="h-6 mr-2 inline {liked ? 'image-blue' : ''} {isDarkMode && !liked
+          ? 'image-white'
+          : ''}"
       />
       {likes}
     </button>
@@ -107,7 +114,10 @@
       <img
         src="/images/dislike.png"
         alt="Dislike"
-        class="h-6 mr-2 inline {disliked ? 'image-blue' : ''}"
+        class="h-6 mr-2 inline {disliked ? 'image-blue' : ''} {isDarkMode &&
+        !disliked
+          ? 'image-white'
+          : ''}"
       />{dislikes}
     </button>
     <!-- <button>
@@ -128,5 +138,8 @@
   .image-blue {
     filter: invert(41%) sepia(62%) saturate(1486%) hue-rotate(199deg)
       brightness(98%) contrast(97%);
+  }
+  .image-white {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg);
   }
 </style>

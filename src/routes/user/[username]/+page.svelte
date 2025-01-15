@@ -4,11 +4,11 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { getUserData } from "$lib/getUserData";
-  import ProfileButton from "$lib/ProfileButton.svelte";
   import PostsList from "$lib/PostsList.svelte";
-  import { getCookie } from "$lib/getCookie";
+  import { getCookie } from "$lib/cookieUtil";
   import { ENDPOINT } from "$lib/constants";
   import Sidebar from "$lib/Sidebar.svelte";
+  import { darkMode } from "$lib/stores/theme";
 
   let error: string | null = $state(null);
   let username: string | undefined = $state($page.params.username);
@@ -30,6 +30,7 @@
   );
 
   let submitting = $state(false);
+  let isDarkMode = $derived(darkMode);
 
   onMount(async () => {
     const username = $page.params.username;
@@ -69,21 +70,23 @@
 </script>
 
 <div class="flex">
-  <div class="w-full"></div>
+  <div class="lg:w-full"></div>
   <div class="w-full">
     {#if error}
       <h1 class="text-3xl text-center font-bold">Error: {error}</h1>
     {:else}
       <div class="flex flex-col">
         <div
-          class="m-2 p-4 flex bg-gradient-to-t {submitting
+          class="m-2 p-4 flex {isDarkMode
+            ? 'bg-slate-800 text-white'
+            : 'bg-gradient-to-t from-slate-400 to-slate-300'} {submitting
             ? 'animate-pulse'
-            : ''} from-slate-400 to-slate-300 shadow-md hover:shadow-lg transition"
+            : ''} shadow-md hover:shadow-lg transition"
         >
           <img
             src="/images/person.png"
             alt="Profile"
-            class="h-24 w-24 brightness-0"
+            class="h-24 w-24 {isDarkMode ? 'image-white' : 'brightness-0'}"
           />
           <div class="flex flex-col w-full">
             {#if ownProfile}
@@ -154,7 +157,7 @@
       </div>
     {/if}
   </div>
-  <div class="w-full">
+  <div class="lg:w-full">
     <Sidebar />
   </div>
 </div>
@@ -164,5 +167,11 @@
   :global(html) {
     background-color: #e2e8f0;
     font-family: "Courier New", Courier, monospace;
+  }
+  .image-white {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg);
+  }
+  :global(.dark-mode) {
+    background-color: #334155;
   }
 </style>

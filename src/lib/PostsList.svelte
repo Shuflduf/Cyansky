@@ -1,7 +1,7 @@
 <script lang="ts">
   import Post from "$lib/Post.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { getCookie } from "./getCookie";
+  import { getCookie } from "./cookieUtil";
   import { getUserData } from "./getUserData";
   import { ENDPOINT } from "$lib/constants";
 
