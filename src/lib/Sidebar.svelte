@@ -3,6 +3,7 @@
   import LogoutButton from "./LogoutButton.svelte";
   import ProfileButton from "./ProfileButton.svelte";
   import ThemeButton from "./ThemeButton.svelte";
+  import HomeButton from "./HomeButton.svelte";
 
   let isOpen = false;
 
@@ -48,6 +49,7 @@
         class="inline-block h-6 w-6 mx-2 image-white"
       />Close
     </button>
+    <HomeButton />
     <ProfileButton />
     <LogoutButton />
     <ThemeButton />
